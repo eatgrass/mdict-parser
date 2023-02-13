@@ -25,19 +25,26 @@ Add the following to your Cargo.toml file:
 
 
 ```rust
-use mdict_parser::parser;
+use mdict_parser::{parser, mdict::Record};
 
 fn main() {
-    let mdict = Mdict::from_file("example.mdx").unwrap();
-    for entry in mdict.entries() {
-        println!("{}: {}", entry.key, entry.value);
+    let input = include_bytes!("../dictionary.mdx");
+    let dict = parser::parse(input);
+
+    // iter dictionary entries
+    for key in dict.keys() {
+      println!("{:?}" item)
+    }
+
+    // iter all dictionary records
+    for item in dict.items() {
+      println!("{:?}" item)
     }
 }
 ```
 ## Unimplemented Features
 
 * `.mdd` file format support
-* UTF-16 encoding support
 * mdict v3 format support
 * Encrypted dictionary file support
 
