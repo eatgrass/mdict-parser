@@ -1,0 +1,25 @@
+[package]
+name = "mdict-parser"
+version = "0.1.0"
+authors = ["eatgrass <eatgrass@live.cn>"]
+edition = "2021"
+description = "Mdict dictionary mdx file parser"
+license = "MIT"
+repository = "https://github.com/eatgrass/mdict-parser.git"
+readme = "readme.md"
+keywords = ["mdict", "mdx", "parser" ]
+categories = ["parsing", "dictionary"]
+
+
+[dependencies]
+nom = "7"
+adler32 = "1.2.0"
+regex = "1.7.1"
+xxhash-rust = "0.8.6"
+ripemd = "0.1.3"
+salsa20 = "0.10.2"
+encoding = "0.2.33"
+compress = "0.2.1"
+minilzo-rs = "0.6.0"
+
+
