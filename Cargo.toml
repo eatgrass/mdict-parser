@@ -9,6 +9,7 @@ repository = "https://github.com/eatgrass/mdict-parser.git"
 readme = "readme.md"
 keywords = ["mdict", "mdx", "parser" ]
 categories = ["parsing", "dictionary"]
+exclude = ["/tests"]
 
 
 [dependencies]
