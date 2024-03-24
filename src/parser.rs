@@ -197,7 +197,7 @@ fn parse_key_block_infos_v2<'a>(
     let mut key_block_info = vec![];
 
     //decrypt
-    if dict_header.encrypted == 2 {
+    if dict_header.encrypted == 2 || dict_header.encrypted == 3 {
         let mut md = Ripemd128::new();
         let mut v = Vec::from(block_info.slice(4..8));
         let value: u32 = 0x3695;
@@ -208,6 +208,11 @@ fn parse_key_block_infos_v2<'a>(
         let decrypte = fast_decrypt(&block_info[8..], key.as_slice());
         d.extend(decrypte);
         zlib::Decoder::new(&d[8..])
+            .read_to_end(&mut key_block_info)
+            .unwrap();
+    }
+    if dict_header.encrypted == 0 {
+        zlib::Decoder::new(&block_info[8..])
             .read_to_end(&mut key_block_info)
             .unwrap();
     }
