@@ -6,7 +6,7 @@ use std::{
 
 use adler32::adler32;
 
-use compress::zlib;
+use flate2::read::ZlibDecoder;
 use encoding::{all::UTF_16LE, label::encoding_from_whatwg_label, Encoding};
 use nom::{
     bytes::complete::{take, take_till},
@@ -207,12 +207,12 @@ fn parse_key_block_infos_v2<'a>(
         let mut d = Vec::from(&block_info[0..8]);
         let decrypte = fast_decrypt(&block_info[8..], key.as_slice());
         d.extend(decrypte);
-        zlib::Decoder::new(&d[8..])
+        ZlibDecoder::new(&d[8..])
             .read_to_end(&mut key_block_info)
             .unwrap();
     }
     if dict_header.encrypted == 0 {
-        zlib::Decoder::new(&block_info[8..])
+        ZlibDecoder::new(&block_info[8..])
             .read_to_end(&mut key_block_info)
             .unwrap();
     }
@@ -375,7 +375,7 @@ fn block_parser_v1<'a>(size: usize) -> impl FnMut(&'a [u8]) -> IResult<&'a [u8],
                 0 => data,
                 2 => {
                     let mut v = vec![];
-                    zlib::Decoder::new(&data[..]).read_to_end(&mut v).unwrap();
+                    ZlibDecoder::new(&data[..]).read_to_end(&mut v).unwrap();
                     v
                 }
                 _ => panic!("unknown compression method: {}", comp_method),
@@ -422,7 +422,7 @@ fn block_parser<'a>(
                 }
                 2 => {
                     let mut v = vec![];
-                    zlib::Decoder::new(&data[..]).read_to_end(&mut v).unwrap();
+                    ZlibDecoder::new(&data[..]).read_to_end(&mut v).unwrap();
                     v
                 }
                 _ => panic!("unknown compression method: {}", comp_method),
@@ -527,7 +527,7 @@ pub(crate) fn record_block_parser<'a>(
                 },
                 2 => {
                     let mut v = vec![];
-                    zlib::Decoder::new(&data[..]).read_to_end(&mut v).unwrap();
+                    ZlibDecoder::new(&data[..]).read_to_end(&mut v).unwrap();
                     v
                 }
                 _ => panic!("unknown compression method: {}", comp_method),
