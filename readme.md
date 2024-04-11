@@ -33,12 +33,12 @@ fn main() {
 
     // iter dictionary entries
     for key in dict.keys() {
-      println!("{:?}" item)
+      println!("{:?}", key);
     }
 
     // iter all dictionary records
     for item in dict.items() {
-      println!("{:?}" item)
+      println!("{:?}", item);
     }
 }
 ```
